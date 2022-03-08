@@ -27,16 +27,19 @@ const uploadProductImageLocal = async (req, res) => {
 };
 
 const uploadProductImage = async (req, res) => {
-  fixDirName = path.dirname(req.files.image.tempFilePath)
-  fixBaseName = path.basename(req.files.image.tempFilePath)
-  fixPath = path.resolve(fixDirName, fixBaseName)
-  console.log(fixPath)
-  console.log(req.files.image)
+
+  const imagePath = path.join(
+    __dirname,
+    '../picDebug/' + `${req.files.image.name}`);
+
+  console.log(req.files.image.tempFilePath)
+  console.log(req.files.image.mimetype)
   const result = await cloudinary.uploader.upload(
-    fixPath,
+    // req.files.image.tempFilePath,
+    imagePath,
     {
       use_filename: true,
-      folder: 'samples',
+      folder: 'file-upload',
     }
   );
   fs.unlinkSync(req.files.image.tempFilePath);
